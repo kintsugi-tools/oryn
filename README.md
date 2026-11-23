@@ -3,9 +3,9 @@
 **Compile less, test less, trust the results.** A safe, Rust-native accelerator
 for Cargo workspaces: it runs only the tests your change can affect, skips the
 ones it can *prove* are unchanged, scores flaky tests with real statistics, and
-tunes your build — all on stable Rust, with no risk of a wrong result.
+tunes your build, all on stable Rust, with no risk of a wrong result.
 
-No AI, no nightly, no homegrown compile cache — just classical, deterministic CS.
+No AI, no nightly, no homegrown compile cache, just classical, deterministic CS.
 
 ## Install
 
@@ -42,19 +42,19 @@ then skip), while `cargo test` re-runs everything. Reproduce with [`bench/run.sh
 ## Features
 
 - **Safe test selection.** From a git diff, run the changed crates plus every
-  crate that depends on them — never fewer. Function-level mode (`oryn cover` +
+  crate that depends on them, never fewer. Function-level mode (`oryn cover` +
   `oryn test --fn`) narrows further to the exact tests whose recorded coverage
   touches your change (a one-function edit on ripgrep selected ~250 of 1,139).
 - **Sound result cache.** A BLAKE3 Merkle fingerprint of each crate's full file
   closure + `Cargo.lock` + `rustc` version. Matching fingerprint ⇒ the outcome
   can't have changed ⇒ skip. A `cargo update` or any file edit invalidates it.
 - **Rigorous flaky scoring.** Wilson + Jeffreys credible intervals and the rerun
-  budget the statistics actually require (`n ≥ ln(1−γ)/ln(1−p)`) — instead of the
+  budget the statistics actually require (`n ≥ ln(1−γ)/ln(1−p)`), instead of the
   naive "fail-then-pass in 3 reruns" rule. Fail-fast ordering, O(log n) bisection.
 - **Build doctor.** `oryn tune --apply` writes only sound, stable config
   (`debug = "line-tables-only"`, `split-debuginfo`, the right linker for your
   target) and wraps `sccache` rather than reinventing a compile cache.
-- **Terminal UI.** `oryn tui` — selection, cache state, crates, and flaky stats.
+- **Terminal UI.** `oryn tui`: selection, cache state, crates, and flaky stats.
 
 ## Commands
 
@@ -72,12 +72,12 @@ oryn tui / setup / cache / info
 ## Soundness & limits
 
 The cache captures **source closure + `Cargo.lock` + `rustc` version**. Tests that
-depend on un-captured state — network, wall-clock, ambient env, or dependencies
-outside the workspace via `path`/`patch` — aren't perfectly hermetic; the flaky
+depend on un-captured state, network, wall-clock, ambient env, or dependencies
+outside the workspace via `path`/`patch`: aren't perfectly hermetic; the flaky
 subsystem surfaces such tests, and `--no-cache` forces a full re-run. Crate-level
 selection is the safe default; function-level selection needs `llvm-tools-preview`
 and a clean working tree.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).
